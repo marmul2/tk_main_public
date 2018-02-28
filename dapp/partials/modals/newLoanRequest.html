@@ -1,0 +1,31 @@
+
+<div class="modal-header">
+    <h3 class="modal-title">
+        新建借贷请求
+    </h3>
+</div>
+<div class="modal-body">
+    <div class="message" style="padding: 20px">
+    <p style="font-size: 20px">
+        创建新的借贷请求部署将花费<b>{{feeSum| ether}}</b>,并且可能花费需要3-5分钟网络确认时间
+    </p>
+    <p style="font-size: 20px">
+        发布成功后在网站首页就能看到新的借贷请求信息
+        <br>
+        <br>
+        <!--"借贷人成功借贷并还币完成后将会获得信用,累计借贷1ETH能够获取0.1个信用，信用表示借币人的信用率.-->
+        <br>
+        <br>
+        <!--0.1个信用点不需要任何抵押物可以借贷0.1个ETH-->
+    </p>
+
+    <div class="text-center">
+        <div class="text-center"><h4>开始借贷</h4></div>
+        <div class="">
+            <button class="btn btn-primary" ng-click="newTokenLoanRequest()">使用代币</button>
+            <!--<button class="btn btn-primary" ng-click="newDomainLoanRequest()">使用域名</button>-->
+            <!--<button class="btn btn-danger" ng-click="newCreditLoanRequest()">使用信用</button>-->
+        </div>
+    </div>
+</div>
+</div>

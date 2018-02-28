@@ -1,0 +1,21 @@
+
+<div class="modal-header">
+    <h3 class="modal-title">
+        造测试币和发送测试币
+    </h3>
+</div>
+<div class="modal-body">
+
+    <div>当前用户测试币(STK)数量：{{stkAmount}}  <button class="btn-primary btn" ng-click="makeSTK()">开始造币</button></div>
+
+    <div class="message" style="padding: 20px">
+        <input ng-model="recvAddr" placeholder="请输入接收地址地址">
+        <input ng-model="tokenAmount" placeholder="请输入发币数量">
+        <button class="btn btn-primary" ng-click="sendSTK(recvAddr, tokenAmount)">开始发币</button>
+    </div>
+
+
+
+    <div>目标地址测试币(STK)数量：{{addrSTKAmount}}  <button class="btn btn-primary" ng-click="getBalanceOfSTK(recvAddr)">获取目标地址测试币数量</button></div>
+
+</div>

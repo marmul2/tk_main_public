@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="6c5607b5-d1ce-4b2f-a463-f9a59c0fcbd2" name="company_166" url="http://192.168.0.166">
+        <fileTransfer host="192.168.0.166" port="22" rootFolder="/home/vm2/work/qukuailian/TokenLoan" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

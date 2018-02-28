@@ -1,0 +1,110 @@
+<main>
+    <h1 class="hidden">错误地址</h1>
+    <div ng-if='loading' class="loading container" style="padding:100px">
+        <!--<h1 style="font-size:50px; display:block">加载中</h1>-->
+        <!--<p style="font-size:20px; padding-top:15px; padding-bottom:15px">请稍等...</p>-->
+    </div>
+    <div ng-if='!loading' class="loan-wrapper">
+        <div class="input-wrapper">
+            <a target="__blank" class="loan-title" href="https://etherscan.io/address/{{lrid}}">借贷请求  {{lrid}}</a>
+            <div class="input-box">
+                <section style="height:36px">
+                    <h3 class="input-key">需要借多少Eth</h3>
+                    <input type="text" style="max-height:40px" class="input lr-WantedWei" placeholder="{{lr.WantedWei}}" ng-model="lr.WantedWei" ng-disabled="inputDisabled || !IamBorrower" ng-if="!(inputDisabled || !IamBorrower)">
+                    <div style="max-height:40px;width: 296px;display: inline-block" class="input lr-WantedWei" ng-if="inputDisabled || !IamBorrower">{{lr.WantedWei|ether}}</div>
+                </section>
+                <section style="height:36px">
+                    <h3 class="input-key">抵押币名字</h3>
+                    <input type="text" style="max-height:40px" class="input lr-TokenName" ng-model="lr.TokenName" ng-disabled="inputDisabled || !IamBorrower">
+
+                </section>
+                <section style="height:36px">
+                    <h3 class="input-key">抵押币数量</h3>
+                    <input type="text" style="max-height:40px" class="input lr-TokenAmount" placeholder="{{lr.TokenAmount}}" ng-model="lr.TokenAmount"  ng-disabled="inputDisabled || !IamBorrower">
+
+                </section>
+                <section style="height:36px">
+                    <h3 class="input-key">抵押币的智能合约地址</h3>
+                    <input type="text" style="max-height:40px" class="input input-primary-short lr-TokenSmartcontractAddress"  ng-model="lr.TokenSmartcontractAddress" ng-disabled="inputDisabled || !IamBorrower">
+
+                </section>
+                <section style="height:36px">
+                    <h3 class="input-key">抵押币信息链接(可选)</h3>
+                    <input type="text" style="max-height:40px" class="input lr-TokenInfoLink" ng-model="lr.TokenInfoLink" ng-disabled="inputDisabled || !IamBorrower">
+
+                </section>
+                <section style="height:36px">
+                    <h3 class="input-key">借贷天数(天)</h3>
+                    <input type="text" style="max-height:40px" class="input lr-DaysToLen" ng-model="lr.DaysToLen" ng-disabled="inputDisabled || !IamBorrower">
+
+                </section>
+                <section style="height:36px">
+                    <h3 class="input-key">利息数量(ETH)</h3>
+                    <input type="text" style="max-height:40px" class="input lr-PremiumWei" placeholder="{{lr.PremiumWei}}" ng-model="lr.PremiumWei" ng-disabled="inputDisabled || !IamBorrower" ng-if="!(inputDisabled || !IamBorrower)">
+                    <div style="max-height:40px;width: 296px;display: inline-block" class="input lr-PremiumWei" ng-if="(inputDisabled || !IamBorrower)">{{lr.PremiumWei|ether}}</div>
+
+                </section>
+                <section style="height:36px">
+                    <h3 class="input-key">借币人地址</h3>
+                    <input type="text" style="max-height:40px" class="input lr-Borrower input-primary-short" ng-model="lr.Borrower" disabled="true">
+
+                </section>
+                <section style="height:36px">
+                    <h3 class="input-key">借币人信用积分</h3>
+                    <!--<input type="text" style="max-height:40px" class="input bor-balance input-primary-short" ng-model="repBalance" disabled="true">-->
+                    <div style="max-height:40px;width: 296px;display: inline-block" class="input lr-PremiumWei">{{repBalance|rep}}</div>
+                </section>
+                <section style="height:36px">
+                    <h3 class="input-key">出借人地址</h3>
+                    <input type="text" style="max-height:40px" class="input lr-Lender input-primary-short" ng-model="lr.Lender" disabled="true">
+
+                </section>
+
+                <div class="text-center" ng-if="state == 0 || state == 1 || state == 3 || state == 4">
+                    <div class="text-s">
+                        <div class="loan-prebutton-text">{{tipText}}</div>
+                    </div>
+
+                    <button class="btn btn-primary " ng-disabled="btnDisabled" ng-click="onClicked()">{{btnText}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="block-scheme">
+            <div class="block-scheme-element" ng-class="state==0?'block-scheme-element-highlighted':''">没有数据</div>
+            <div class="block-scheme-line">
+                <p class="block-scheme-line-inscription">借币人<br>设置数据</p>
+                <div class="block-scheme-line-arrow"></div>
+            </div><div class="block-scheme-element" ng-class="state==1?'block-scheme-element-highlighted':''">等待打币(tokens)</div>
+            <div class="block-scheme-line">
+                <p class="block-scheme-line-inscription">借币人发送<br>抵押币(tokens)</p>
+                <div class="block-scheme-line-arrow"></div>
+            </div><div class="block-scheme-element" ng-class="state==3?'block-scheme-element-highlighted':''">等待贷币人</div>
+            <div class="block-scheme-line">
+                <p class="block-scheme-line-inscription">出借人发送<br>ETH</p>
+                <div class="block-scheme-line-arrow"></div>
+            </div><div class="block-scheme-element" ng-class="state==4?'block-scheme-element-highlighted':''">出借人已经打币完成</div>
+            <div class="block-scheme-line block-scheme-line-long">
+                <p class="block-scheme-line-inscription">返还借币人剩余的抵押币<br>并添加信用积分Tokens</p>
+                <p class="block-scheme-line-inscription block-scheme-line-inscription-second">出借人获取返还的Eth</p>
+                <div class="block-scheme-line-arrow block-scheme-line-arrow-long"></div>
+            </div>
+            <div class="block-scheme-element block-scheme-element-success" ng-class="state==6?'block-scheme-element-highlighted':''">完成</div>
+            <div class="block-scheme-line block-scheme-line-long block-scheme-line-long-branch">
+                <p class="block-scheme-line-inscription block-scheme-line-inscription-branch">出借人获取抵押币</p>
+                <div class="block-scheme-line-arrow block-scheme-line-arrow-branch"></div>
+            </div>
+            <div class="block-scheme-element block-scheme-element-branch block-scheme-element-failure" >合约到期结束</div>
+        </div>
+
+
+        <!--测试入口，正式将屏蔽-->
+        <div ng-if="state == 1 && IamBorrower && lr.TokenName == 'STK'" style="overflow: hidden;clear: both">
+            <div>
+                <span>测试发送抵押币(系统已经自动生成了很多STK用于测试，直接填写需要抵押的数量，确定后就会发送到当前借贷合约地址的，不需要用metaMask)</span>
+                <span>抵押币将发送到本借贷合约{{lrid}}</span>
+            </div>
+            <input type="text" placeholder="请输入大于等于抵押币(STK)数量" ng-model="testTokenAmount">
+            <button class="btn btn-primary" ng-click="onTestSendToken(lrid,testTokenAmount)">发送</button>
+        </div>
+    </div>
+</main>

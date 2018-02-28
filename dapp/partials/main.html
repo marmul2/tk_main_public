@@ -1,0 +1,84 @@
+
+<!--借贷列表区-->
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="pull-right">
+      <button type="button" class="btn btn-default" ng-click="newLoanRequest()">
+        我要借币
+      </button>
+    </div>
+    <h4>
+      借贷需求列表
+    </h4>
+
+  </div>
+
+  <div class="row" style="padding: 20px">
+      <div ng-if="loanRequests.length == 0">
+          没有借贷信息
+      </div>
+      <div ng-if="loanRequests.length > 0">
+          <div ng-repeat="lr in loanRequests" class="col-lg-4 col-md-6" style="padding: 2px">
+
+              <div class="panel" ng-class="getLrClass(lr.State)" ng-click="onLrClick(lr.id)" >
+                  <div class="panel-heading">
+
+                      <div ng-if="lr.State>0">
+                          <div style="width:49%; display:inline-block;">借:{{lr.WantedWei|ether}}({{lr.DaysToLen}}天)</div>
+                          <div style="width: 49%; display:inline-block;text-align: right">抵押:{{lr.TokenName}}({{lr.TokenAmount}}个)</div>
+                      </div>
+                      <div ng-if="lr.State==0 && lr.Borrower.toUpperCase() == web3.eth.defaultAccount.toUpperCase()">
+                          <div>请设置借贷需求数据</div>
+                      </div>
+                      <div ng-if="lr.State==0 && lr.Borrower.toUpperCase() != web3.eth.defaultAccount.toUpperCase()">
+                          <div>借币人还没有设置借贷数据</div>
+                      </div>
+
+                  </div>
+                  <div class="padding">
+                      <div style="padding: 2px">
+                          <h5>借币人</h5>
+                          <p>{{lr.Borrower}}</p>
+                      </div>
+
+                      <!-- 如果借币者不是自己，并且状态=3等待借款人状态 显示出多少利息-->
+                      <div style="padding: 2px" ng-If="lr.State == 3 && lr.Borrower.toUpperCase() != web3.eth.defaultAccount.toUpperCase()" >
+                          <div class="text-center">
+                              <h5>利息</h5>
+                              <p style="color: red">{{lr.PremiumWei|ether}}</p>
+                          </div>
+
+
+                      </div>
+                      <div style="padding: 2px" ng-If="lr.State != 3">
+                          <h5>出借人</h5>
+                          <p>{{lr.Lender == '' ? '...': lr.Lender}}</p>
+                      </div>
+
+                      <!-- 状态 -->
+                      <div style="padding: 2px">
+                          <h5>状态</h5>
+                          <p>{{lr.strState}}</p>
+                      </div>
+                  </div>
+
+              </div>
+
+
+          </div>
+
+          <div class="text-center col-lg-12 col-md-12 col-sm-12">
+
+              <div paging
+                   page="curLrPage"
+                   page-size="numPerPage"
+                   total="totalLrItems"
+                   paging-action="onPageAction('Paging Clicked', page, pageSize, total)">
+              >
+              </div>
+          </div>
+      </div>
+      <!-- item -->
+
+  </div>
+</div>
